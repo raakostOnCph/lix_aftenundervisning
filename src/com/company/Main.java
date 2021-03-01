@@ -1,13 +1,9 @@
 package com.company;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException {
-	// write your code here
+    public static void main(String[] args) {
+        // write your code here
 
         // ints, Strings, arrays.
 
@@ -36,19 +32,16 @@ public class Main {
 //        }
 
 
-
 //        int [] ints = {33,1,34,32,1,3,4,4,3,2,22};
 //
 //        System.out.println("længden er " + ints.length);
 //
 //        System.out.println(ints[3]);
 
-       // String [] strings = {"hej " , "med ", "dig "};
-
+        // String [] strings = {"hej " , "med ", "dig "};
 
 
         // sådan her deler efter ord.
-
 
 
 //        String [] ord = "hej med dig".split( " ");
@@ -64,29 +57,39 @@ public class Main {
 //
 
 
+//
+//
 
-        String sætning = læsFil("tekst.txt");
 
-        udskriv( delEfterOrd(sætning));
+       // String sætning = læsFil(getTekst("angiv filnavn : "));
+        //System.out.println("DET VI LÆSTE AF FILEN : " + sætning);
 
-        udskriv(delEfterTegn(sætning));
 
-        System.out.println( findLængsteOrd(sætning).length()   );
+       String indhold = "der her kommer til at stå til evig tid ";
+
+       filHaandtering.skrivTilFil(  Indput.getTekst("skriv filnavn : "), Indput.getTekst("skriv noget du vil gemme i din fil ")    );
+
+
+//        udskriv( delEfterOrd(sætning));
+//
+//        udskriv(delEfterTegn(sætning));
+//
+//        System.out.println( findLængsteOrd(sætning).length()   );
 
 
     }    // her slutter min main metode
 
 
-    public static String findLængsteOrd(String s ) {
+    public static String findLængsteOrd(String s) {
 
 
-        String [] ord = s.split(" ");
+        String[] ord = s.split(" ");
 
-        String res ="";
+        String res = "";
 
         for (int i = 0; i < ord.length; i++) {
 
-            if (ord[i].length()  > res.length() ) {
+            if (ord[i].length() > res.length()) {
 
                 res = ord[i];    // her opdatere jeg res.
             }
@@ -99,31 +102,19 @@ public class Main {
     }
 
 
-    public static String læsFil(String filnavn) throws FileNotFoundException {
+    public static String[] delEfterOrd(String s) { // metode signatur
 
-        File file = new File(filnavn);
-
-        Scanner scanner = new Scanner(file);
-
-        String indhold = scanner.nextLine();
-
-        return indhold;
-    }
-
-
-    public static String [] delEfterOrd(String s) { // metode signatur
-
-        String [] strings = s.split(" ");
+        String[] strings = s.split(" ");
 
         return strings;
 
         //return s.split(" ");
     }
 
-    public static String [] delEfterTegn (String s) {
+    public static String[] delEfterTegn(String s) {
 
 
-        String [] strings = s.split("");
+        String[] strings = s.split("");
 
         return strings;
 
@@ -131,7 +122,7 @@ public class Main {
     }
 
 
-    public static void udskriv(String [] strings ) { // metode signatur
+    public static void udskriv(String[] strings) { // metode signatur
 
         for (int i = 0; i < strings.length; i++) {
 
@@ -141,7 +132,6 @@ public class Main {
 
 
     }
-
 
 
 }       // her slutter min main klasse
