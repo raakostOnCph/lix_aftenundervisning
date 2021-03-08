@@ -65,19 +65,130 @@ public class Main {
         //System.out.println("DET VI LÆSTE AF FILEN : " + sætning);
 
 
-       String indhold = "der her kommer til at stå til evig tid ";
-
-       filHaandtering.skrivTilFil(  Indput.getTekst("skriv filnavn : "), Indput.getTekst("skriv noget du vil gemme i din fil ")    );
+       String indhold = FilHaandtering.læsFil("tekst.txt");
 
 
-//        udskriv( delEfterOrd(sætning));
-//
-//        udskriv(delEfterTegn(sætning));
-//
-//        System.out.println( findLængsteOrd(sætning).length()   );
+       String max =     findLængsteOrd(indhold);
+
+        System.out.println(max);
+
+        String maxRens = rensOrd(max);
+
+        System.out.println(maxRens);
+
+        System.out.println(markerOrd(indhold, findLængsteOrd(indhold)));
 
 
     }    // her slutter min main metode
+
+
+
+    public static String markerOrd (String tekst, String ord ) {
+
+        String [] ordliste = tekst.split(" ");
+
+        for (int i = 0; i < ordliste.length; i++) {
+
+            String temp = rensOrd(ordliste[i]);
+
+            if(temp.equalsIgnoreCase(ord)) {
+
+                ordliste[i] = ordliste[i].toUpperCase();
+            }
+
+        }
+
+        return String.join(" ", ordliste);
+
+    }
+
+
+    public static String rensOrd(String s) {
+
+        if (slutterPå(s)) {
+            return s.substring(0,s.length()-1);
+        }
+        return s;
+    }
+
+    public static boolean slutterPå(String s) {
+
+        int i =  s.length()-1;
+
+        String sidste = s.substring(i);
+
+       return tilHører(sidste);
+
+    }
+
+    public static String ordTilTekst(String [] ordliste ) {
+
+        return String.join(" ",ordliste);
+
+    }
+
+
+    public static boolean tilHører(String s) {
+
+        String specialTegn = "!#%&;:().,";
+
+        return specialTegn.contains(s);
+
+
+
+    }
+
+    public static String  markerOrdVirker(String tekst, String ord ) {   // viker ikke helt.
+
+        String [] ordliste = delEfterOrd(tekst);
+
+        for (int i = 0; i < ordliste.length ; i++) {
+
+            if (ordliste[i].equalsIgnoreCase(ord))  {
+
+
+                ordliste[i] = ordliste[i].toUpperCase();
+            }
+
+        }
+
+        return ordTilTekst(ordliste);
+
+
+
+
+
+    }
+
+
+    // Todo find alle forekomster af et bestemt ord og marker det. Huske det med punktum og komma til sidste i et ord.
+    // todo lav en metode der kan fjern alle markeringer.
+
+
+    // to lave en metode som Kan bytte et ord ud  med et andet i en tekst
+    // todo lav en metode som tager en fil, og ord og bytte alle forkomster af ordet ud, og og gemme filen.
+
+    // todo lav metoden kan dele en tekst op i ord.
+    // todo lav metoden kan dele en tekst op i bogstaver.
+    // todo lav metoden kan dele en tekst op i sætninger.
+
+    // todo lav metoden kan samle bogstaver til en tekst.
+    // todo lav metoden kan samle ord til sætninger.
+    //todo lave en metode der kan fjern special tegn f.eks. ,".-
+
+    // todo lav metoden der findet et bestemt ord og skriver det med stor.
+    // todo lav en metode der lave der laver alle bogstaver store/små
+    // todo lav metoden kan som kan fjerne markeringen.
+
+    // todo lav en metode der kan fjerne et ord
+    // todo lav en metode der kan erstatte et ord med et andet.
+    // todo lav metoden kan lave stor forbogstav.
+
+
+
+
+
+
 
 
     public static String findLængsteOrd(String s) {
@@ -97,7 +208,7 @@ public class Main {
 
         }
 
-        return res;
+        return   rensOrd(res);
 
     }
 

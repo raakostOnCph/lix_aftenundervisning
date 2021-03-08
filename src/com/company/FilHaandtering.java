@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class filHaandtering {
+public class FilHaandtering {
     public static String læsFil(String filnavn) {
 
         File file = new File(filnavn);
