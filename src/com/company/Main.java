@@ -61,37 +61,161 @@ public class Main {
 //
 
 
-       // String sætning = læsFil(getTekst("angiv filnavn : "));
+        // String sætning = læsFil(getTekst("angiv filnavn : "));
         //System.out.println("DET VI LÆSTE AF FILEN : " + sætning);
 
 
-       String indhold = FilHaandtering.læsFil("tekst.txt");
+//       String indhold = FilHaandtering.læsFil("tekst.txt");
+//
+//
+//       String max =     findLængsteOrd(indhold);
+//
+//        System.out.println(max);
+//
+//        String maxRens = rensOrd(max);
+//
+//        System.out.println(maxRens);
+//
+//        System.out.println(markerOrd(indhold, findLængsteOrd(indhold)));
 
 
-       String max =     findLængsteOrd(indhold);
+        String x = FilHaandtering.læsFil("tekst.txt").toLowerCase();
 
-        System.out.println(max);
+        String s = "hej med dig hej med dig hej    Med   dig hej     med   dig hej med dig ".toLowerCase();
+      //  String tekst = FilHaandtering.læsFil("tekst.txt");
 
-        String maxRens = rensOrd(max);
+//        String res = s.replace("  ", " ");
 
-        System.out.println(maxRens);
+//        System.out.println(s);
+//        System.out.println(normaliser(s));
 
-        System.out.println(markerOrd(indhold, findLængsteOrd(indhold)));
+       // System.out.println(tælForekomster(s, "hej"));
+
+
+
+//        StringBuilder stringBuilder = new StringBuilder();
+//
+//        stringBuilder.append(s + " ");
+//        stringBuilder.append(s);
+//
+//        System.out.println("indholdet af min stringB : " + stringBuilder.toString());
+//
+//
+//        if (stringBuilder.indexOf(" " + Indput.getTekst("skriv det ord du leder : ") + " ") > 0) {
+//
+//            System.out.println("ordet findes");
+//        }
+//        else {
+//            System.out.println("ordet findes ikke i listen");
+//        }
+        // String tekst = FilHaandtering.læsFil("tekst.txt");
+
+        etOrdAfHver(s);
+               // udskriv(delEfterOrd(x));
+
+          udskriv(  hisogram (etOrdAfHver(s) ) );
+
+
+
+
+
+
 
 
     }    // her slutter min main metode
 
 
+    public static String [] hisogram ( String tekst) {
 
-    public static String markerOrd (String tekst, String ord ) {
+        String ordliste = etOrdAfHver(tekst);   // alle forskellige ord i teksten
 
-        String [] ordliste = tekst.split(" ");
+        String [] ord = delEfterOrd(ordliste);  // lavet om til et array
+
+        int [] resultArray = new int[ord.length];
+
+        for (int i = 0; i < ord.length; i++) {
+
+           resultArray[i] = tælForekomster(tekst, ord[i]);
+
+        }
+
+        for (int i = 0; i < ord.length; i++) {
+
+            ord[i] = ord[i] + ": " + resultArray[i];
+
+        }
+
+        return ord;
+
+    }
+
+
+    public static int tælForekomster(String tekst, String ord) {
+
+        String [] ordArray = delEfterOrd(tekst);
+
+        int antal =0;
+
+        for (int i = 0; i < ordArray.length; i++) {
+
+            if (ordArray[i].equalsIgnoreCase(ord) ) {
+                antal++;
+            }
+        }
+
+        return antal;
+    }
+
+    public static String normaliser(String s) {
+
+        while (true) {
+
+            s = s.replace("  ", " ");
+
+            if (!s.contains("  ")) {
+                return s;
+            }
+        }
+
+
+    }
+
+
+    public static String etOrdAfHver(String s) {
+
+        String[] ord = delEfterOrd(s);
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < ord.length; i++) {
+
+
+                if (stringBuilder.indexOf(  " " + ord[i] + " " ) == -1) {
+
+                    stringBuilder.append(" " + ord[i] + " ");
+
+                }
+
+
+
+        }
+
+
+        return normaliser(stringBuilder.toString()).trim();
+
+
+    }
+
+
+    public static String markerOrd(String tekst, String ord) {
+
+        String[] ordliste = tekst.split(" ");
 
         for (int i = 0; i < ordliste.length; i++) {
 
             String temp = rensOrd(ordliste[i]);
 
-            if(temp.equalsIgnoreCase(ord)) {
+            if (temp.equalsIgnoreCase(ord)) {
 
                 ordliste[i] = ordliste[i].toUpperCase();
             }
@@ -106,24 +230,24 @@ public class Main {
     public static String rensOrd(String s) {
 
         if (slutterPå(s)) {
-            return s.substring(0,s.length()-1);
+            return s.substring(0, s.length() - 1);
         }
         return s;
     }
 
     public static boolean slutterPå(String s) {
 
-        int i =  s.length()-1;
+        int i = s.length() - 1;
 
         String sidste = s.substring(i);
 
-       return tilHører(sidste);
+        return tilHører(sidste);
 
     }
 
-    public static String ordTilTekst(String [] ordliste ) {
+    public static String ordTilTekst(String[] ordliste) {
 
-        return String.join(" ",ordliste);
+        return String.join(" ", ordliste);
 
     }
 
@@ -135,16 +259,15 @@ public class Main {
         return specialTegn.contains(s);
 
 
-
     }
 
-    public static String  markerOrdVirker(String tekst, String ord ) {   // viker ikke helt.
+    public static String markerOrdVirker(String tekst, String ord) {   // viker ikke helt.
 
-        String [] ordliste = delEfterOrd(tekst);
+        String[] ordliste = delEfterOrd(tekst);
 
-        for (int i = 0; i < ordliste.length ; i++) {
+        for (int i = 0; i < ordliste.length; i++) {
 
-            if (ordliste[i].equalsIgnoreCase(ord))  {
+            if (ordliste[i].equalsIgnoreCase(ord)) {
 
 
                 ordliste[i] = ordliste[i].toUpperCase();
@@ -153,9 +276,6 @@ public class Main {
         }
 
         return ordTilTekst(ordliste);
-
-
-
 
 
     }
@@ -185,12 +305,6 @@ public class Main {
     // todo lav metoden kan lave stor forbogstav.
 
 
-
-
-
-
-
-
     public static String findLængsteOrd(String s) {
 
 
@@ -208,7 +322,7 @@ public class Main {
 
         }
 
-        return   rensOrd(res);
+        return rensOrd(res);
 
     }
 
