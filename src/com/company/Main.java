@@ -117,6 +117,25 @@ public class Main {
 
 
 
+        // todo finde ud af hvad om vi kan slette markerOrdVirker ?
+        // todo omdøb tilHører   ->   erSpecialTegn
+        // todo omdøb normaliser -> fixMellemrum
+
+        // todo Lav en util klasse og træk følgende metoder ud i den.
+        //  fixMellemrum, delefterord , deleftertegn,rensOrd, tilhøre ,etafhvert,
+        // udskriv
+
+        // todo Lav en statestik klasse og træk følgende metoder ud i den.
+        // tilForekomster, histogram
+
+
+
+        // todo lav en metode som kun returnere histoindex'er
+        // todo Marker det ord der optræder flest gange
+        // todo slet et ord (husk at fixe mellemrum).
+        // todo Slet det ord der optræder flest gange
+        // todo byt et ord ud med et andet.
+
 
 
 
