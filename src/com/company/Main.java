@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.Arrays;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -79,42 +81,19 @@ public class Main {
 //        System.out.println(markerOrd(indhold, findLængsteOrd(indhold)));
 
 
-        String x = FilHaandtering.læsFil("tekst.txt").toLowerCase();
+        String teksten = FilHaandtering.læsFil("tekst.txt").toLowerCase();
 
-        String s = "hej med dig hej med dig hej    Med   dig hej     med   dig hej med dig ".toLowerCase();
-      //  String tekst = FilHaandtering.læsFil("tekst.txt");
-
-//        String res = s.replace("  ", " ");
-
-//        System.out.println(s);
-//        System.out.println(normaliser(s));
-
-       // System.out.println(tælForekomster(s, "hej"));
+        String s = "hej med dig hej med dig hej Med dig hej med dig hej med dig ".toLowerCase();
 
 
 
-//        StringBuilder stringBuilder = new StringBuilder();
-//
-//        stringBuilder.append(s + " ");
-//        stringBuilder.append(s);
-//
-//        System.out.println("indholdet af min stringB : " + stringBuilder.toString());
-//
-//
-//        if (stringBuilder.indexOf(" " + Indput.getTekst("skriv det ord du leder : ") + " ") > 0) {
-//
-//            System.out.println("ordet findes");
-//        }
-//        else {
-//            System.out.println("ordet findes ikke i listen");
-//        }
-        // String tekst = FilHaandtering.læsFil("tekst.txt");
 
-        etOrdAfHver(s);
-               // udskriv(delEfterOrd(x));
+      Util.udskriv(Statestik.hisogram(teksten) )  ;
 
-          udskriv(  hisogram (etOrdAfHver(s) ) );
+        System.out.println(hyppigesteOrd(teksten, hyppistIndex(teksten)));
 
+
+        System.out.println(findeOgMarkerDetLængste(teksten));
 
 
         // todo finde ud af hvad om vi kan slette markerOrdVirker ?
@@ -131,112 +110,142 @@ public class Main {
 
 
         // todo lav en metode som kun returnere histoindex'er
+
         // todo Marker det ord der optræder flest gange
+
         // todo slet et ord (husk at fixe mellemrum).
         // todo Slet det ord der optræder flest gange
         // todo byt et ord ud med et andet.
 
 
+        System.out.println("\n\n\n");
 
+        System.out.println(sletOrd(teksten, "men"));
 
+        System.out.println("\n\n\n");
+
+        System.out.println(sletOrd(teksten, udksrivHyppigesteOrd(teksten)));
+
+        System.out.println("\n\n\n");
+
+        System.out.println(erstatOrd(teksten, "men", "Andreas"));
 
 
     }    // her slutter min main metode
 
 
-    public static String [] hisogram ( String tekst) {
+    public static String erstatOrd(String tekst, String gammelt, String nyt  ) {
 
-        String ordliste = etOrdAfHver(tekst);   // alle forskellige ord i teksten
 
-        String [] ord = delEfterOrd(ordliste);  // lavet om til et array
+        String[] ordliste = tekst.split(" ");
 
-        int [] resultArray = new int[ord.length];
+        for (int i = 0; i < ordliste.length; i++) {
 
-        for (int i = 0; i < ord.length; i++) {
+            String temp = Util.rensOrd(ordliste[i]);
 
-           resultArray[i] = tælForekomster(tekst, ord[i]);
+            if (temp.equalsIgnoreCase(gammelt)) {
 
-        }
-
-        for (int i = 0; i < ord.length; i++) {
-
-            ord[i] = ord[i] + ": " + resultArray[i];
+                ordliste[i] = nyt;
+            }
 
         }
 
-        return ord;
+        return String.join(" ", ordliste);
+
+
+
 
     }
 
 
-    public static int tælForekomster(String tekst, String ord) {
+    public static String sletOrd(String tekst, String ord ) {
 
-        String [] ordArray = delEfterOrd(tekst);
+        String [] ordListe = Util.delEfterOrd(tekst);
 
+        for (int i = 0; i < ordListe.length; i++) {
+
+            if (ordListe[i].equalsIgnoreCase(ord)) {
+
+                ordListe[i] = "";
+            }
+
+        }
+
+        String samletTekst = String.join(" ", ordListe);
+
+        return  Util.fixMellemrum(samletTekst);
+
+
+    }
+
+    public static String findeOgMarkerDetLængste(String  tekst) {
+
+       return markerOrd(tekst, findLængsteOrd(tekst));
+
+    }
+
+    public static String markHyppigst (String tekst) {
+
+        String ord = udksrivHyppigesteOrd(tekst);
+        return  markerOrd(tekst, ord);
+
+
+    }
+
+    public static String udksrivHyppigesteOrd( String tekst ) {
+
+        return hyppigesteOrd(tekst, hyppistIndex(tekst));
+
+    }
+
+    public static int hyppistIndex(String tekst) {
+
+        int [] hyppighed = Statestik.hisogramIndex(tekst);
+
+        // System.out.println(Arrays.toString(hyppighed));
+
+
+        int index = -1;
         int antal =0;
 
-        for (int i = 0; i < ordArray.length; i++) {
+        for (int i = 0; i < hyppighed.length; i++) {
 
-            if (ordArray[i].equalsIgnoreCase(ord) ) {
-                antal++;
+            if (antal < hyppighed[i] ) {
+
+                antal = hyppighed[i];
+                //System.out.println("opdatere index til : " + i );
+                //System.out.println("opdatere variablen antal er : " + antal );
+                index = i;
             }
         }
-
-        return antal;
+        return index;
     }
 
-    public static String normaliser(String s) {
+    public static String hyppigesteOrd ( String tekst , int i ) {
 
-        while (true) {
+        String ord = Statestik.etOrdAfHver(tekst);
 
-            s = s.replace("  ", " ");
+        String [] ordListe = Util.delEfterOrd(ord);
 
-            if (!s.contains("  ")) {
-                return s;
-            }
-        }
-
-
-    }
-
-
-    public static String etOrdAfHver(String s) {
-
-        String[] ord = delEfterOrd(s);
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (int i = 0; i < ord.length; i++) {
-
-
-                if (stringBuilder.indexOf(  " " + ord[i] + " " ) == -1) {
-
-                    stringBuilder.append(" " + ord[i] + " ");
-
-                }
-
-
-
-        }
-
-
-        return normaliser(stringBuilder.toString()).trim();
-
+        return ordListe[i];
 
     }
 
 
     public static String markerOrd(String tekst, String ord) {
 
+         String ANSI_RED = "\u001B[31m";
+         String ANSI_RESET = "\u001B[0m";
+
         String[] ordliste = tekst.split(" ");
 
         for (int i = 0; i < ordliste.length; i++) {
 
-            String temp = rensOrd(ordliste[i]);
+            String temp = Util.rensOrd(ordliste[i]);
 
             if (temp.equalsIgnoreCase(ord)) {
 
-                ordliste[i] = ordliste[i].toUpperCase();
+                ordliste[i] =   ANSI_RED + ordliste[i] + ANSI_RESET;
             }
 
         }
@@ -245,14 +254,6 @@ public class Main {
 
     }
 
-
-    public static String rensOrd(String s) {
-
-        if (slutterPå(s)) {
-            return s.substring(0, s.length() - 1);
-        }
-        return s;
-    }
 
     public static boolean slutterPå(String s) {
 
@@ -260,68 +261,9 @@ public class Main {
 
         String sidste = s.substring(i);
 
-        return tilHører(sidste);
+        return Util.erSpecialTegn(sidste);
 
     }
-
-    public static String ordTilTekst(String[] ordliste) {
-
-        return String.join(" ", ordliste);
-
-    }
-
-
-    public static boolean tilHører(String s) {
-
-        String specialTegn = "!#%&;:().,";
-
-        return specialTegn.contains(s);
-
-
-    }
-
-    public static String markerOrdVirker(String tekst, String ord) {   // viker ikke helt.
-
-        String[] ordliste = delEfterOrd(tekst);
-
-        for (int i = 0; i < ordliste.length; i++) {
-
-            if (ordliste[i].equalsIgnoreCase(ord)) {
-
-
-                ordliste[i] = ordliste[i].toUpperCase();
-            }
-
-        }
-
-        return ordTilTekst(ordliste);
-
-
-    }
-
-
-    // Todo find alle forekomster af et bestemt ord og marker det. Huske det med punktum og komma til sidste i et ord.
-    // todo lav en metode der kan fjern alle markeringer.
-
-
-    // to lave en metode som Kan bytte et ord ud  med et andet i en tekst
-    // todo lav en metode som tager en fil, og ord og bytte alle forkomster af ordet ud, og og gemme filen.
-
-    // todo lav metoden kan dele en tekst op i ord.
-    // todo lav metoden kan dele en tekst op i bogstaver.
-    // todo lav metoden kan dele en tekst op i sætninger.
-
-    // todo lav metoden kan samle bogstaver til en tekst.
-    // todo lav metoden kan samle ord til sætninger.
-    //todo lave en metode der kan fjern special tegn f.eks. ,".-
-
-    // todo lav metoden der findet et bestemt ord og skriver det med stor.
-    // todo lav en metode der lave der laver alle bogstaver store/små
-    // todo lav metoden kan som kan fjerne markeringen.
-
-    // todo lav en metode der kan fjerne et ord
-    // todo lav en metode der kan erstatte et ord med et andet.
-    // todo lav metoden kan lave stor forbogstav.
 
 
     public static String findLængsteOrd(String s) {
@@ -341,39 +283,7 @@ public class Main {
 
         }
 
-        return rensOrd(res);
-
-    }
-
-
-    public static String[] delEfterOrd(String s) { // metode signatur
-
-        String[] strings = s.split(" ");
-
-        return strings;
-
-        //return s.split(" ");
-    }
-
-    public static String[] delEfterTegn(String s) {
-
-
-        String[] strings = s.split("");
-
-        return strings;
-
-
-    }
-
-
-    public static void udskriv(String[] strings) { // metode signatur
-
-        for (int i = 0; i < strings.length; i++) {
-
-            System.out.println(strings[i]);
-
-        }
-
+        return Util.rensOrd(res);
 
     }
 
