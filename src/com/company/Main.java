@@ -83,17 +83,9 @@ public class Main {
 
         String teksten = FilHaandtering.læsFil("tekst.txt").toLowerCase();
 
-        String s = "hej med dig hej med dig hej Med dig hej med dig hej med dig ".toLowerCase();
+        String s = "hej med dig hej med dig hej Meeeeeeed dig hej med digggg hej med dig ".toLowerCase();
 
 
-
-
-      Util.udskriv(Statestik.hisogram(teksten) )  ;
-
-        System.out.println(hyppigesteOrd(teksten, hyppistIndex(teksten)));
-
-
-        System.out.println(findeOgMarkerDetLængste(teksten));
 
 
         // todo finde ud af hvad om vi kan slette markerOrdVirker ?
@@ -108,7 +100,6 @@ public class Main {
         // tilForekomster, histogram
 
 
-
         // todo lav en metode som kun returnere histoindex'er
 
         // todo Marker det ord der optræder flest gange
@@ -118,23 +109,171 @@ public class Main {
         // todo byt et ord ud med et andet.
 
 
-        System.out.println("\n\n\n");
+//        System.out.println("\n\n\n");
+//
+//        System.out.println(sletOrd(teksten, "men"));
+//
+//        System.out.println("\n\n\n");
+//
+//        System.out.println(sletOrd(teksten, udksrivHyppigesteOrd(teksten)));
+//
+//        System.out.println("\n\n\n");
+//
+//        System.out.println(erstatOrd(teksten, "men", "Andreas"));
 
-        System.out.println(sletOrd(teksten, "men"));
 
-        System.out.println("\n\n\n");
 
-        System.out.println(sletOrd(teksten, udksrivHyppigesteOrd(teksten)));
 
-        System.out.println("\n\n\n");
 
-        System.out.println(erstatOrd(teksten, "men", "Andreas"));
+
+
+        System.out.println(vokalerMax(teksten).s);
+        System.out.println(konsonanterMax(teksten).s);
 
 
     }    // her slutter min main metode
+//
+//    private static MaxOrdne maxOrdVK(String s, ) {
+//        String [] ordListe = Util.delEfterOrd(s);
+//
+//        int vMax = 0;
+//        String vMaxOrd ="";
+//
+//        int kMax =0;
+//        String kMaxOrd = "";
+//
+//
+//
+//        for (int i = 0; i < ordListe.length; i++) {
+//
+//            int antalV = tælVokaler(ordListe[i]);
+//            int antalK = tælKonsonanter(ordListe[i]);
+//
+//
+//            if (antalK > kMax) {
+//
+//                kMax = antalK;
+//                kMaxOrd = ordListe[i];
+//            }
+//
+//            if (antalV > vMax ) {
+//
+//                vMax = antalV;
+//                vMaxOrd = ordListe[i];
+//
+//            }
+//
+//        }
+//
+//        Ordet vOrdet = new Ordet();
+//
+//        vOrdet.i = vMax;
+//        vOrdet.s = vMaxOrd;
+//
+//        Ordet kOrdet = new Ordet();
+//
+//        kOrdet.i = kMax;
+//        kOrdet.s = kMaxOrd;
+//
+//
+//        MaxOrdne maxOrdne = new MaxOrdne();
+//
+//        maxOrdne.ordMedFlestVokaler = vOrdet;
+//        maxOrdne.ordMedFlestKonsonanter = kOrdet;
+//
+//
+//
+//        return maxOrdne;
+//
+//    }
 
 
-    public static String erstatOrd(String tekst, String gammelt, String nyt  ) {
+    public static Ordet vokalerMax(String s ) {
+
+        return  tælForekomster(s, "aeyuioæøå");
+    }
+
+
+    public static Ordet konsonanterMax(String s) {
+
+        return tælForekomster(s, "qzxswdcvfrtgbnhjmkl");
+
+    }
+
+    private static Ordet tælForekomster(String s, String tegn ) {
+
+        String [] ordListe = Util.delEfterOrd(s);
+
+        int Max = 0;
+        String MaxOrd ="";
+
+        for (int i = 0; i < ordListe.length; i++) {
+
+            int antalV = tælForkomsterAfTegn(ordListe[i], tegn);
+
+            if (antalV > Max ) {
+
+                Max = antalV;
+                MaxOrd = ordListe[i];
+
+            }
+
+        }
+
+        Ordet ordet = new Ordet();
+
+        ordet.i = Max;
+        ordet.s = MaxOrd;
+
+        return ordet ;
+    }
+
+
+
+    public static int tælForkomsterAfTegn(String ord, String tegn) {
+
+
+
+        String[] bogstaver = Util.delEfterTegn(ord);
+
+        int antal = 0;
+
+        for (int i = 0; i < bogstaver.length; i++) {
+
+            if (tegn.contains(bogstaver[i])) {
+
+                antal++;
+            }
+        }
+
+        return antal;
+    }
+
+
+
+
+    public static int tælKonsonanter(String ord) {
+
+        String konsonanter = "qzxswdcvfrtgbnhjmklp";
+
+        String[] bogstaver = Util.delEfterTegn(ord);
+        
+        int antal = 0;
+
+        for (int i = 0; i < bogstaver.length; i++) {
+
+            if (konsonanter.contains(bogstaver[i])) {
+
+                antal++;
+            }
+        }
+
+
+        return antal;
+    }
+
+
+    public static String erstatOrd(String tekst, String gammelt, String nyt) {
 
 
         String[] ordliste = tekst.split(" ");
@@ -153,14 +292,12 @@ public class Main {
         return String.join(" ", ordliste);
 
 
-
-
     }
 
 
-    public static String sletOrd(String tekst, String ord ) {
+    public static String sletOrd(String tekst, String ord) {
 
-        String [] ordListe = Util.delEfterOrd(tekst);
+        String[] ordListe = Util.delEfterOrd(tekst);
 
         for (int i = 0; i < ordListe.length; i++) {
 
@@ -173,26 +310,26 @@ public class Main {
 
         String samletTekst = String.join(" ", ordListe);
 
-        return  Util.fixMellemrum(samletTekst);
+        return Util.fixMellemrum(samletTekst);
 
 
     }
 
-    public static String findeOgMarkerDetLængste(String  tekst) {
+    public static String findeOgMarkerDetLængste(String tekst) {
 
-       return markerOrd(tekst, findLængsteOrd(tekst));
+        return markerOrd(tekst, findLængsteOrd(tekst));
 
     }
 
-    public static String markHyppigst (String tekst) {
+    public static String markHyppigst(String tekst) {
 
         String ord = udksrivHyppigesteOrd(tekst);
-        return  markerOrd(tekst, ord);
+        return markerOrd(tekst, ord);
 
 
     }
 
-    public static String udksrivHyppigesteOrd( String tekst ) {
+    public static String udksrivHyppigesteOrd(String tekst) {
 
         return hyppigesteOrd(tekst, hyppistIndex(tekst));
 
@@ -200,17 +337,17 @@ public class Main {
 
     public static int hyppistIndex(String tekst) {
 
-        int [] hyppighed = Statestik.hisogramIndex(tekst);
+        int[] hyppighed = Statestik.hisogramIndex(tekst);
 
         // System.out.println(Arrays.toString(hyppighed));
 
 
         int index = -1;
-        int antal =0;
+        int antal = 0;
 
         for (int i = 0; i < hyppighed.length; i++) {
 
-            if (antal < hyppighed[i] ) {
+            if (antal < hyppighed[i]) {
 
                 antal = hyppighed[i];
                 //System.out.println("opdatere index til : " + i );
@@ -221,11 +358,11 @@ public class Main {
         return index;
     }
 
-    public static String hyppigesteOrd ( String tekst , int i ) {
+    public static String hyppigesteOrd(String tekst, int i) {
 
         String ord = Statestik.etOrdAfHver(tekst);
 
-        String [] ordListe = Util.delEfterOrd(ord);
+        String[] ordListe = Util.delEfterOrd(ord);
 
         return ordListe[i];
 
@@ -234,8 +371,8 @@ public class Main {
 
     public static String markerOrd(String tekst, String ord) {
 
-         String ANSI_RED = "\u001B[31m";
-         String ANSI_RESET = "\u001B[0m";
+        String ANSI_RED = "\u001B[31m";
+        String ANSI_RESET = "\u001B[0m";
 
         String[] ordliste = tekst.split(" ");
 
@@ -245,7 +382,7 @@ public class Main {
 
             if (temp.equalsIgnoreCase(ord)) {
 
-                ordliste[i] =   ANSI_RED + ordliste[i] + ANSI_RESET;
+                ordliste[i] = ANSI_RED + ordliste[i] + ANSI_RESET;
             }
 
         }
